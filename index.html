@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Handmade Store — Ручные изделия</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #faf7f2;
+      color: #333;
+    }
+
+    header {
+      background: #d9c4a8;
+      padding: 20px;
+      text-align: center;
+      font-size: 26px;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+
+    .hero {
+      background: url('https://images.unsplash.com/photo-1519710164239-da123dc03ef4?auto=format&fit=crop&w=1200&q=80') center/cover;
+      height: 300px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 32px;
+      font-weight: bold;
+      text-shadow: 0 0 10px black;
+    }
+
+    .section {
+      padding: 40px 20px;
+      max-width: 1000px;
+      margin: auto;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 28px;
+    }
+
+    .products {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 10px;
+      padding: 15px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+
+    .card img {
+      width: 100%;
+      border-radius: 10px;
+      height: 200px;
+      object-fit: cover;
+    }
+
+    .price {
+      font-size: 20px;
+      margin: 10px 0;
+      color: #8b5e34;
+      font-weight: bold;
+    }
+
+    button {
+      background: #8b5e34;
+      color: white;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    button:hover {
+      background: #6e4828;
+    }
+
+    footer {
+      background: #d9c4a8;
+      padding: 20px;
+      text-align: center;
+      margin-top: 40px;
+    }
+  </style>
+</head>
+<body>
+
+<header>Handmade Store — Ручные изделия</header>
+
+<div class="hero">Уникальные изделия ручной работы</div>
+
+<div class="section">
+  <h2>Каталог товаров</h2>
+
+  <div class="products">
+
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1602526216437-31c52a4da41d?auto=format&fit=crop&w=800&q=80">
+      <h3>Браслет из натуральных камней</h3>
+      <div class="price">15 €</div>
+      <button>Купить</button>
+    </div>
+
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1519710164239-da123dc03ef4?auto=format&fit=crop&w=800&q=80">
+      <h3>Ароматическая свеча</h3>
+      <div class="price">12 €</div>
+      <button>Купить</button>
+    </div>
+
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1587049352846-4a222e1e3e6c?auto=format&fit=crop&w=800&q=80">
+      <h3>Вязаная игрушка</h3>
+      <div class="price">20 €</div>
+      <button>Купить</button>
+    </div>
+
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1587049352846-4a222e1e3e6c?auto=format&fit=crop&w=800&q=80">
+      <h3>Декор из дерева</h3>
+      <div class="price">25 €</div>
+      <button>Купить</button>
+    </div>
+
+  </div>
+</div>
+
+<footer>
+  Связаться с мастером: <b>your-email@example.com</b><br>
+  Instagram: <b>@yourshop</b>
+</footer>
+
+</body>
+</html>
