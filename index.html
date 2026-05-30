@@ -4,9 +4,15 @@
   <meta charset="UTF-8">
   <title>Handmade Store — Ручные изделия</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Уникальные изделия ручной работы - браслеты, свечи, украшения и декор">
   <style>
-    body {
+    * {
       margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
       font-family: Arial, sans-serif;
       background: #faf7f2;
       color: #333;
@@ -19,6 +25,62 @@
       font-size: 26px;
       font-weight: bold;
       letter-spacing: 1px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    nav {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+
+    nav a {
+      color: #333;
+      text-decoration: none;
+      font-size: 16px;
+      cursor: pointer;
+      transition: color 0.3s;
+    }
+
+    nav a:hover {
+      color: #8b5e34;
+    }
+
+    .cart-icon {
+      background: #8b5e34;
+      color: white;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 24px;
+      position: relative;
+      transition: background 0.3s;
+    }
+
+    .cart-icon:hover {
+      background: #6e4828;
+    }
+
+    .cart-count {
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      background: #d9534f;
+      color: white;
+      border-radius: 50%;
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: bold;
     }
 
     .hero {
@@ -39,10 +101,66 @@
       margin: auto;
     }
 
+    .section.hidden {
+      display: none;
+    }
+
     h2 {
       text-align: center;
       margin-bottom: 20px;
       font-size: 28px;
+    }
+
+    h3 {
+      margin-bottom: 15px;
+      font-size: 20px;
+    }
+
+    .about-content {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      line-height: 1.8;
+    }
+
+    .about-section {
+      margin-bottom: 25px;
+    }
+
+    .about-section:last-child {
+      margin-bottom: 0;
+    }
+
+    .about-section p {
+      margin-bottom: 10px;
+      text-align: justify;
+    }
+
+    .highlights {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .highlight-card {
+      background: #f9f5f0;
+      padding: 20px;
+      border-radius: 8px;
+      border-left: 4px solid #8b5e34;
+      text-align: center;
+    }
+
+    .highlight-icon {
+      font-size: 32px;
+      margin-bottom: 10px;
+    }
+
+    .highlight-title {
+      font-weight: bold;
+      margin-bottom: 8px;
+      color: #8b5e34;
     }
 
     .products {
@@ -57,6 +175,12 @@
       padding: 15px;
       box-shadow: 0 2px 8px rgba(0,0,0,0.1);
       text-align: center;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
     }
 
     .card img {
@@ -66,11 +190,39 @@
       object-fit: cover;
     }
 
+    .card h3 {
+      margin: 10px 0;
+      font-size: 18px;
+    }
+
     .price {
       font-size: 20px;
       margin: 10px 0;
       color: #8b5e34;
       font-weight: bold;
+    }
+
+    .quantity-control {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin: 10px 0;
+    }
+
+    .quantity-control button {
+      width: 30px;
+      height: 30px;
+      padding: 0;
+      font-size: 16px;
+    }
+
+    .quantity-control input {
+      width: 50px;
+      text-align: center;
+      padding: 5px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
     }
 
     button {
@@ -81,10 +233,207 @@
       border-radius: 6px;
       cursor: pointer;
       font-size: 16px;
+      transition: background 0.3s;
     }
 
     button:hover {
       background: #6e4828;
+    }
+
+    button:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal.active {
+      display: flex;
+    }
+
+    .modal-content {
+      background: white;
+      border-radius: 10px;
+      padding: 30px;
+      max-width: 600px;
+      width: 90%;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 10px;
+    }
+
+    .close-btn {
+      background: none;
+      border: none;
+      font-size: 28px;
+      cursor: pointer;
+      color: #999;
+      padding: 0;
+      width: auto;
+    }
+
+    .close-btn:hover {
+      color: #333;
+    }
+
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px;
+      border-bottom: 1px solid #eee;
+      background: #f9f9f9;
+      margin-bottom: 10px;
+      border-radius: 6px;
+    }
+
+    .cart-item-info {
+      flex: 1;
+      text-align: left;
+    }
+
+    .cart-item-name {
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    .cart-item-price {
+      color: #8b5e34;
+      font-weight: bold;
+    }
+
+    .cart-item-controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .cart-item-controls button {
+      width: 30px;
+      height: 30px;
+      padding: 0;
+      font-size: 16px;
+    }
+
+    .cart-item-quantity {
+      min-width: 40px;
+      text-align: center;
+    }
+
+    .remove-btn {
+      background: #d9534f;
+      width: 30px;
+      height: 30px;
+      padding: 0;
+    }
+
+    .remove-btn:hover {
+      background: #c9302c;
+    }
+
+    .cart-empty {
+      text-align: center;
+      padding: 40px 20px;
+      color: #999;
+    }
+
+    .cart-summary {
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 2px solid #ddd;
+      text-align: right;
+    }
+
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      margin: 10px 0;
+      font-size: 16px;
+    }
+
+    .summary-total {
+      font-size: 20px;
+      font-weight: bold;
+      color: #8b5e34;
+      margin-top: 10px;
+    }
+
+    .checkout-form {
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 2px solid #ddd;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+    }
+
+    .form-group textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    .checkout-buttons {
+      display: flex;
+      gap: 10px;
+      justify-content: flex-end;
+      margin-top: 20px;
+    }
+
+    .checkout-buttons button {
+      flex: 1;
+      padding: 12px;
+      font-size: 16px;
+    }
+
+    .success-message {
+      display: none;
+      background: #d4edda;
+      color: #155724;
+      padding: 15px;
+      border-radius: 6px;
+      margin-bottom: 20px;
+      border: 1px solid #c3e6cb;
+    }
+
+    .success-message.active {
+      display: block;
     }
 
     footer {
@@ -93,54 +442,489 @@
       text-align: center;
       margin-top: 40px;
     }
+
+    footer a {
+      color: #333;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    footer a:hover {
+      color: #8b5e34;
+    }
+
+    @media (max-width: 768px) {
+      header {
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      nav {
+        width: 100%;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+
+      .hero {
+        height: 200px;
+        font-size: 24px;
+      }
+
+      .products {
+        grid-template-columns: 1fr;
+      }
+
+      .modal-content {
+        width: 95%;
+        padding: 20px;
+      }
+
+      .about-content {
+        padding: 20px;
+      }
+    }
   </style>
 </head>
 <body>
 
-<header>Handmade Store — Ручные изделия</header>
+<header>
+  <span>Handmade Store — Ручные изделия</span>
+  <nav>
+    <a onclick="showSection('shop')">Магазин</a>
+    <a onclick="showSection('about')">О нас</a>
+    <div class="cart-icon" onclick="toggleCart()">
+      🛒
+      <span class="cart-count" id="cart-count" style="display: none;">0</span>
+    </div>
+  </nav>
+</header>
 
 <div class="hero">Уникальные изделия ручной работы</div>
 
-<div class="section">
+<!-- Shop Section -->
+<div class="section" id="shop-section">
   <h2>Каталог товаров</h2>
 
-  <div class="products">
+  <div class="products" id="products-container">
+    <!-- Products will be generated by JavaScript -->
+  </div>
+</div>
 
-    <div class="card">
-      <img src="https://images.unsplash.com/photo-1602526216437-31c52a4da41d?auto=format&fit=crop&w=800&q=80">
-      <h3>Браслет из натуральных камней</h3>
-      <div class="price">15 €</div>
-      <button>Купить</button>
+<!-- About Section -->
+<div class="section hidden" id="about-section">
+  <h2>О нас</h2>
+  <div class="about-content">
+    <div class="about-section">
+      <h3>Добро пожаловать в Handmade Store</h3>
+      <p>
+        Handmade Store — это уютная мастерская, где каждое изделие создается с любовью и вниманием к деталям. 
+        Мы верим, что ручная работа — это не просто способ создания товаров, а способ выражения творчества и индивидуальности.
+      </p>
     </div>
 
-    <div class="card">
-      <img src="https://images.unsplash.com/photo-1519710164239-da123dc03ef4?auto=format&fit=crop&w=800&q=80">
-      <h3>Ароматическая свеча</h3>
-      <div class="price">12 €</div>
-      <button>Купить</button>
+    <div class="about-section">
+      <h3>Наша история</h3>
+      <p>
+        Наше путешествие началось 5 лет назад с простой идеи: создавать уникальные, качественные изделия, 
+        которые приносят радость и вдохновение. Начиная с небольшого хобби, мы выросли в признанную мастерскую, 
+        любимую множеством клиентов по всему миру.
+      </p>
+      <p>
+        Каждое изделие в нашем каталоге — результат часов кропотливой работы, выбора лучших материалов 
+        и стремления к совершенству.
+      </p>
     </div>
 
-    <div class="card">
-      <img src="https://images.unsplash.com/photo-1587049352846-4a222e1e3e6c?auto=format&fit=crop&w=800&q=80">
-      <h3>Вязаная игрушка</h3>
-      <div class="price">20 €</div>
-      <button>Купить</button>
+    <div class="about-section">
+      <h3>Почему выбирают нас</h3>
+      <div class="highlights">
+        <div class="highlight-card">
+          <div class="highlight-icon">✨</div>
+          <div class="highlight-title">Качество</div>
+          <p>Используем только натуральные и долговечные материалы высочайшего качества</p>
+        </div>
+        <div class="highlight-card">
+          <div class="highlight-icon">🎨</div>
+          <div class="highlight-title">Уникальность</div>
+          <p>Каждое изделие неповторимо и создается вручную с любовью</p>
+        </div>
+        <div class="highlight-card">
+          <div class="highlight-icon">⚡</div>
+          <div class="highlight-title">Скорость</div>
+          <p>Быстрая обработка заказов и доставка в кратчайшие сроки</p>
+        </div>
+        <div class="highlight-card">
+          <div class="highlight-icon">💚</div>
+          <div class="highlight-title">Забота</div>
+          <p>Личный подход к каждому клиенту и готовность помочь</p>
+        </div>
+      </div>
     </div>
 
-    <div class="card">
-      <img src="https://images.unsplash.com/photo-1587049352846-4a222e1e3e6c?auto=format&fit=crop&w=800&q=80">
-      <h3>Декор из дерева</h3>
-      <div class="price">25 €</div>
-      <button>Купить</button>
+    <div class="about-section">
+      <h3>Наши материалы</h3>
+      <p>
+        Мы тщательно подбираем каждый материал для наших изделий:
+      </p>
+      <ul style="margin-left: 20px; line-height: 1.8;">
+        <li><strong>Натуральные камни</strong> — добываются экологически чистым способом</li>
+        <li><strong>Природные ароматы</strong> — из чистых эфирных масел и растительных компонентов</li>
+        <li><strong>Премиум пряжа</strong> — мягкая, гипоаллергенная и долговечная</li>
+        <li><strong>Натуральное дерево</strong> — из устойчивых источников, обработанное безопасными средствами</li>
+      </ul>
     </div>
 
+    <div class="about-section">
+      <h3>Экологичность</h3>
+      <p>
+        Мы заботимся об окружающей среде. Наша упаковка сделана из переработанных и биоразлагаемых материалов. 
+        Часть прибыли мы отправляем на экологические проекты и поддержку местных сообществ.
+      </p>
+    </div>
+
+    <div class="about-section">
+      <h3>Свяжитесь с нами</h3>
+      <p>
+        Если у вас есть вопросы, пожелания или вы хотите заказать персональное изделие, 
+        мы всегда рады помочь!
+      </p>
+      <p>
+        📧 Email: <a href="mailto:your-email@example.com" style="color: #8b5e34; text-decoration: none;"><b>your-email@example.com</b></a><br>
+        📱 Instagram: <a href="https://instagram.com/yourshop" target="_blank" style="color: #8b5e34; text-decoration: none;"><b>@yourshop</b></a><br>
+        💬 Мы доступны для общения каждый день с 10:00 до 18:00
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- Cart Modal -->
+<div class="modal" id="cart-modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2>Корзина покупок</h2>
+      <button class="close-btn" onclick="toggleCart()">×</button>
+    </div>
+
+    <div class="success-message" id="success-message">
+      ✓ Заказ успешно оформлен! Спасибо за покупку.
+    </div>
+
+    <div id="cart-items-container">
+      <!-- Cart items will be inserted here -->
+    </div>
+
+    <div id="checkout-section" style="display: none;">
+      <div class="checkout-form">
+        <h3>Оформление заказа</h3>
+        
+        <div class="form-group">
+          <label for="customer-name">Имя *</label>
+          <input type="text" id="customer-name" placeholder="Ваше имя" required>
+        </div>
+
+        <div class="form-group">
+          <label for="customer-email">Email *</label>
+          <input type="email" id="customer-email" placeholder="ваш@email.com" required>
+        </div>
+
+        <div class="form-group">
+          <label for="customer-phone">Телефон *</label>
+          <input type="tel" id="customer-phone" placeholder="+7 (999) 999-99-99" required>
+        </div>
+
+        <div class="form-group">
+          <label for="customer-address">Адрес доставки *</label>
+          <textarea id="customer-address" placeholder="Город, улица, дом, квартира" required></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="customer-notes">Примечание (опционально)</label>
+          <textarea id="customer-notes" placeholder="Дополнительные пожелания..."></textarea>
+        </div>
+
+        <div class="cart-summary">
+          <div class="summary-row">
+            <span>Сумма товаров:</span>
+            <span id="subtotal">0 €</span>
+          </div>
+          <div class="summary-row">
+            <span>Доставка:</span>
+            <span id="shipping">5 €</span>
+          </div>
+          <div class="summary-row summary-total">
+            <span>Итого:</span>
+            <span id="total">0 €</span>
+          </div>
+        </div>
+
+        <div class="checkout-buttons">
+          <button onclick="toggleCheckout()">Вернуться в корзину</button>
+          <button onclick="submitOrder()" style="background: #5cb85c;">Подтвердить заказ</button>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
 <footer>
-  Связаться с мастером: <b>your-email@example.com</b><br>
-  Instagram: <b>@yourshop</b>
+  Связаться с мастером: <a href="mailto:your-email@example.com"><b>your-email@example.com</b></a><br>
+  Instagram: <a href="https://instagram.com/yourshop" target="_blank"><b>@yourshop</b></a>
 </footer>
+
+<script>
+  // Product data
+  const products = [
+    {
+      id: 1,
+      name: 'Браслет из натуральных камней',
+      price: 15,
+      image: 'https://images.unsplash.com/photo-1602526216437-31c52a4da41d?auto=format&fit=crop&w=800&q=80',
+      alt: 'Браслет из натуральных камней'
+    },
+    {
+      id: 2,
+      name: 'Ароматическая свеча',
+      price: 12,
+      image: 'https://images.unsplash.com/photo-1519710164239-da123dc03ef4?auto=format&fit=crop&w=800&q=80',
+      alt: 'Ароматическая свеча'
+    },
+    {
+      id: 3,
+      name: 'Вязаная игрушка',
+      price: 20,
+      image: 'https://images.unsplash.com/photo-1587049352846-4a222e1e3e6c?auto=format&fit=crop&w=800&q=80',
+      alt: 'Вязаная игрушка'
+    },
+    {
+      id: 4,
+      name: 'Декор из дерева',
+      price: 25,
+      image: 'https://images.unsplash.com/photo-1578500494198-246f612d03b3?auto=format&fit=crop&w=800&q=80',
+      alt: 'Декор из дерева'
+    }
+  ];
+
+  // Cart data
+  let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+  // Initialize
+  document.addEventListener('DOMContentLoaded', () => {
+    renderProducts();
+    updateCartUI();
+  });
+
+  function showSection(section) {
+    document.getElementById('shop-section').classList.toggle('hidden', section !== 'shop');
+    document.getElementById('about-section').classList.toggle('hidden', section !== 'about');
+  }
+
+  function renderProducts() {
+    const container = document.getElementById('products-container');
+    container.innerHTML = products.map(product => `
+      <div class="card">
+        <img src="${product.image}" alt="${product.alt}">
+        <h3>${product.name}</h3>
+        <div class="price">${product.price} €</div>
+        <div class="quantity-control">
+          <button onclick="decreaseQty(${product.id})">−</button>
+          <input type="number" id="qty-${product.id}" value="1" min="1" max="99" onchange="validateQuantity(${product.id})">
+          <button onclick="increaseQty(${product.id})">+</button>
+        </div>
+        <button onclick="addToCart(${product.id})">Купить</button>
+      </div>
+    `).join('');
+  }
+
+  function increaseQty(productId) {
+    const input = document.getElementById(`qty-${productId}`);
+    input.value = Math.min(99, parseInt(input.value) + 1);
+  }
+
+  function decreaseQty(productId) {
+    const input = document.getElementById(`qty-${productId}`);
+    input.value = Math.max(1, parseInt(input.value) - 1);
+  }
+
+  function validateQuantity(productId) {
+    const input = document.getElementById(`qty-${productId}`);
+    let value = parseInt(input.value);
+    if (isNaN(value) || value < 1) value = 1;
+    if (value > 99) value = 99;
+    input.value = value;
+  }
+
+  function addToCart(productId) {
+    const quantity = parseInt(document.getElementById(`qty-${productId}`).value);
+    const product = products.find(p => p.id === productId);
+    const cartItem = cart.find(item => item.id === productId);
+
+    if (cartItem) {
+      cartItem.quantity += quantity;
+    } else {
+      cart.push({
+        ...product,
+        quantity: quantity
+      });
+    }
+
+    saveCart();
+    updateCartUI();
+    
+    // Reset quantity
+    document.getElementById(`qty-${productId}`).value = 1;
+    
+    // Show feedback
+    alert(`"${product.name}" добавлен(а) в корзину!`);
+  }
+
+  function removeFromCart(productId) {
+    cart = cart.filter(item => item.id !== productId);
+    saveCart();
+    updateCartUI();
+  }
+
+  function updateCartItemQuantity(productId, quantity) {
+    quantity = Math.max(1, parseInt(quantity));
+    const item = cart.find(item => item.id === productId);
+    if (item) {
+      item.quantity = quantity;
+      saveCart();
+      updateCartUI();
+    }
+  }
+
+  function saveCart() {
+    localStorage.setItem('cart', JSON.stringify(cart));
+  }
+
+  function updateCartUI() {
+    const cartCount = document.getElementById('cart-count');
+    const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+
+    if (totalItems > 0) {
+      cartCount.style.display = 'flex';
+      cartCount.textContent = totalItems;
+    } else {
+      cartCount.style.display = 'none';
+    }
+
+    renderCartItems();
+    updateSummary();
+  }
+
+  function renderCartItems() {
+    const container = document.getElementById('cart-items-container');
+    const checkoutSection = document.getElementById('checkout-section');
+
+    if (cart.length === 0) {
+      container.innerHTML = '<div class="cart-empty">Корзина пуста</div>';
+      checkoutSection.style.display = 'none';
+      return;
+    }
+
+    container.innerHTML = cart.map(item => `
+      <div class="cart-item">
+        <div class="cart-item-info">
+          <div class="cart-item-name">${item.name}</div>
+          <div class="cart-item-price">${item.price} € × ${item.quantity} = ${(item.price * item.quantity).toFixed(2)} €</div>
+        </div>
+        <div class="cart-item-controls">
+          <button onclick="updateCartItemQuantity(${item.id}, ${item.quantity - 1})">−</button>
+          <span class="cart-item-quantity">${item.quantity}</span>
+          <button onclick="updateCartItemQuantity(${item.id}, ${item.quantity + 1})">+</button>
+          <button class="remove-btn" onclick="removeFromCart(${item.id})">✕</button>
+        </div>
+      </div>
+    `).join('');
+
+    checkoutSection.style.display = 'block';
+  }
+
+  function updateSummary() {
+    const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+    const shipping = cart.length > 0 ? 5 : 0;
+    const total = subtotal + shipping;
+
+    document.getElementById('subtotal').textContent = subtotal.toFixed(2) + ' €';
+    document.getElementById('shipping').textContent = shipping.toFixed(2) + ' €';
+    document.getElementById('total').textContent = total.toFixed(2) + ' €';
+  }
+
+  function toggleCart() {
+    document.getElementById('cart-modal').classList.toggle('active');
+    document.getElementById('checkout-section').style.display = 'none';
+    document.getElementById('success-message').classList.remove('active');
+  }
+
+  function toggleCheckout() {
+    document.getElementById('checkout-section').style.display = 
+      document.getElementById('checkout-section').style.display === 'none' ? 'block' : 'none';
+  }
+
+  function submitOrder() {
+    const name = document.getElementById('customer-name').value.trim();
+    const email = document.getElementById('customer-email').value.trim();
+    const phone = document.getElementById('customer-phone').value.trim();
+    const address = document.getElementById('customer-address').value.trim();
+
+    if (!name || !email || !phone || !address) {
+      alert('Пожалуйста, заполните все обязательные поля');
+      return;
+    }
+
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      alert('Пожалуйста, введите корректный email');
+      return;
+    }
+
+    // Prepare order data
+    const orderData = {
+      customer: {
+        name: name,
+        email: email,
+        phone: phone,
+        address: address,
+        notes: document.getElementById('customer-notes').value.trim()
+      },
+      items: cart,
+      subtotal: cart.reduce((sum, item) => sum + item.price * item.quantity, 0),
+      shipping: 5,
+      total: cart.reduce((sum, item) => sum + item.price * item.quantity, 0) + 5,
+      date: new Date().toLocaleString('ru-RU')
+    };
+
+    // Log order (in real app, would send to server)
+    console.log('Order submitted:', orderData);
+
+    // Display success message
+    document.getElementById('success-message').classList.add('active');
+
+    // Clear cart
+    cart = [];
+    saveCart();
+    updateCartUI();
+
+    // Clear form
+    document.getElementById('customer-name').value = '';
+    document.getElementById('customer-email').value = '';
+    document.getElementById('customer-phone').value = '';
+    document.getElementById('customer-address').value = '';
+    document.getElementById('customer-notes').value = '';
+
+    // Reset checkout section
+    document.getElementById('checkout-section').style.display = 'none';
+
+    // Auto-close modal after 3 seconds
+    setTimeout(toggleCart, 3000);
+  }
+
+  // Close modal on background click
+  document.getElementById('cart-modal').addEventListener('click', function(e) {
+    if (e.target === this) {
+      toggleCart();
+    }
+  });
+</script>
 
 </body>
 </html>
